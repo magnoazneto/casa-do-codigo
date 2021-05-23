@@ -39,9 +39,7 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    // JPA
-    runtime("io.micronaut.sql:micronaut-jdbc-hikari")
-    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    // POSTGRESQL (Hikari e JPA já estão declarados acima)
     implementation("org.postgresql:postgresql:42.2.18")
 
 }
