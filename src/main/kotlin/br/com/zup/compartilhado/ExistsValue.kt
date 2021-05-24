@@ -12,7 +12,7 @@ import kotlin.annotation.AnnotationRetention.RUNTIME
 import kotlin.annotation.AnnotationTarget.*
 
 @MustBeDocumented
-@Target(FIELD, TYPE_PARAMETER)
+@Target(FIELD, TYPE_PARAMETER, FIELD, VALUE_PARAMETER)
 @Retention(RUNTIME)
 @Constraint(validatedBy = [ExistsValueValidator::class])
 annotation class ExistsValue(
