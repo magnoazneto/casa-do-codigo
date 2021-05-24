@@ -55,7 +55,7 @@ internal class AutorControllerTest {
 
         val response = client
             .toBlocking()
-            .exchange("/autores?email=${autor.email}", AutorResponse::class.java)
+            .exchange("autores?email=${autor.email}", AutorResponse::class.java)
 
         assertEquals(HttpStatus.OK, response.status)
         assertNotNull(response.body())

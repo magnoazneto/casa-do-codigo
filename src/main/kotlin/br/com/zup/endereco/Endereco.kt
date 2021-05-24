@@ -5,12 +5,12 @@ import javax.persistence.Embeddable
 
 @Embeddable
 class Endereco(
-    endereco: CepResponse
+    endereco: CepResponse?
 ) {
-    val logradouro: String = endereco.logradouro ?: ""
-    val bairro: String = endereco.bairro ?: ""
-    val uf: String = endereco.uf ?: ""
-    val complemento: String = endereco.complemento ?: ""
-    val localidade: String = endereco.localidade ?: ""
-    val ddd: String = endereco.ddd ?: ""
+    val logradouro = endereco?.logradouro
+    val bairro = endereco?.bairro
+    val uf = endereco?.uf
+    val complemento = endereco?.complemento
+    val localidade = endereco?.localidade
+    val ddd = endereco?.ddd
 }

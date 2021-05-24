@@ -9,6 +9,6 @@ datasources:
     username: postgres
     password: root
     dialect: POSTGRES
-jpa.default.properties.hibernate.hbm2ddl.auto: create-drop
+jpa.default.properties.hibernate.hbm2ddl.auto: update
 
 cep.host: https://viacep.com.br/ws/

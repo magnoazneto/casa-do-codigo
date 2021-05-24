@@ -1,9 +1,9 @@
 package br.com.zup.autor
 
 class AutorResponse(
-    autor: Autor
+    autor: Autor?
 ) {
-    val nome: String = autor.nome
-    val email: String = autor.email
-    val descricao: String = autor.descricao
+    val nome = autor?.nome
+    val email = autor?.email
+    val descricao = autor?.descricao
 }
