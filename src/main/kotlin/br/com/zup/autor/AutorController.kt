@@ -1,6 +1,5 @@
 package br.com.zup.autor
 
-import br.com.zup.compartilhado.ExistsValue
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.*
 import io.micronaut.http.uri.UriBuilder
@@ -12,9 +11,17 @@ import javax.validation.Valid
 class AutorController(val autorRepository: AutorRepository) {
 
     @Get
-    fun listaAutores(): HttpResponse<List<AutorResponse>>{
-        return HttpResponse.ok(autorRepository
-            .findAll().map { autor -> AutorResponse(autor) })
+    fun listaAutores(@QueryValue(defaultValue = "") email: String): HttpResponse<Any>{
+        return if(email.isBlank()){
+            HttpResponse.ok(autorRepository.findAll()
+                    .map { autor -> AutorResponse(autor) })
+        } else {
+            val possivelAutor = autorRepository.findByEmail(email)
+            when {
+                possivelAutor.isPresent -> HttpResponse.ok(AutorResponse(possivelAutor.get()))
+                else -> HttpResponse.notFound()
+            }
+        }
     }
 
     @Post
@@ -37,5 +44,13 @@ class AutorController(val autorRepository: AutorRepository) {
             }
         } else{ HttpResponse.notFound() }
 
+    }
+
+    @Delete(value = "/{id}")
+    fun deletaAutor(@PathVariable id: Long): HttpResponse<Any> {
+        return if (autorRepository.findById(id).isPresent){
+            autorRepository.deleteById(id)
+            HttpResponse.ok()
+        } else { HttpResponse.notFound() }
     }
 }
