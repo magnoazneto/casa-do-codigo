@@ -5,6 +5,7 @@ import br.com.zup.categoria.CategoriaRepository
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.uri.UriBuilder
 import io.micronaut.validation.Validated
@@ -17,6 +18,13 @@ class LivroController(
     val autorRepository: AutorRepository,
     val categoriaRepository: CategoriaRepository
 ) {
+
+    @Get
+    fun listaLivros(): HttpResponse<List<LivroResponse>> {
+        return HttpResponse.ok(
+            livroRepository.findAll().map { livro -> LivroResponse(livro) }
+        )
+    }
 
     @Post
     fun criaLivro(@Body @Valid request: LivroRequest): HttpResponse<Any> {
