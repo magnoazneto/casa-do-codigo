@@ -42,6 +42,8 @@ dependencies {
     // POSTGRESQL (Hikari e JPA já estão declarados acima)
     implementation("org.postgresql:postgresql:42.2.18")
 
+    implementation("io.micronaut.xml:micronaut-jackson-xml")
+
 }
 
 

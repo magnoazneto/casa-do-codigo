@@ -1,7 +1,12 @@
 package br.com.zup.autor
 
+import br.com.zup.servicosexternos.CepClient
+import br.com.zup.servicosexternos.CepResponse
 import io.micronaut.http.HttpResponse
+import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.*
+import io.micronaut.http.client.exceptions.HttpClientResponseException
+import io.micronaut.http.exceptions.HttpStatusException
 import io.micronaut.http.uri.UriBuilder
 import io.micronaut.validation.Validated
 import javax.transaction.Transactional
@@ -9,7 +14,10 @@ import javax.validation.Valid
 
 @Validated
 @Controller("/autores")
-class AutorController(val autorRepository: AutorRepository) {
+class AutorController(
+    val autorRepository: AutorRepository,
+    val cepClient: CepClient
+) {
 
     @Get
     @Transactional
@@ -29,7 +37,9 @@ class AutorController(val autorRepository: AutorRepository) {
     @Post
     @Transactional
     fun novoAutor(@Body @Valid request: AutorRequest): HttpResponse<Any> {
-        val autor = request.paraAutor().let { autorRepository.save(it) }
+        val cep: CepResponse = buscaPorCep(request.cep)
+        val autor = request.paraAutor(cep).let { autorRepository.save(it) }
+
         return HttpResponse.created(UriBuilder
             .of("/autores/{id}")
             .expand(mutableMapOf(Pair("id", autor.id))))
@@ -55,5 +65,13 @@ class AutorController(val autorRepository: AutorRepository) {
             autorRepository.deleteById(id)
             HttpResponse.ok()
         } else { HttpResponse.notFound() }
+    }
+
+    fun buscaPorCep(cep: String): CepResponse {
+        return try{
+            cepClient.consulta(cep).body.get()
+        } catch (e: HttpClientResponseException){
+            throw HttpStatusException(HttpStatus.BAD_REQUEST, "CEP inválido")
+        }
     }
 }

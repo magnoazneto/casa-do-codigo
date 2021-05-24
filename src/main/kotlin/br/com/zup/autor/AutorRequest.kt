@@ -1,6 +1,8 @@
 package br.com.zup.autor
 
 import br.com.zup.compartilhado.UniqueValue
+import br.com.zup.endereco.Endereco
+import br.com.zup.servicosexternos.CepResponse
 import io.micronaut.core.annotation.Introspected
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
@@ -13,9 +15,12 @@ data class AutorRequest(
     @field:NotBlank @field:Email @field:UniqueValue(fieldName = "email", targetClass = "Autor")
     val email: String,
     @field:NotBlank @field:Size(max = 400)
-    val descricao: String
+    val descricao: String,
+    @field:NotBlank
+    val cep: String
 ){
-    fun paraAutor(): Autor {
-        return Autor(nome, email, descricao)
+    fun paraAutor(cepResponse: CepResponse): Autor {
+        val endereco: Endereco = Endereco(cepResponse)
+        return Autor(nome, email, descricao, endereco)
     }
 }
