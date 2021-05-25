@@ -44,6 +44,7 @@ dependencies {
 
     implementation("io.micronaut.xml:micronaut-jackson-xml")
 
+    testImplementation("org.mockito:mockito-core:3.8.0")
 }
 
 
