@@ -1,9 +1,11 @@
 package br.com.zup.autor
 
 class AutorResponse(
-    autor: Autor?
+    val nome: String,
+    val email: String,
+    val descricao: String
 ) {
-    val nome = autor?.nome
-    val email = autor?.email
-    val descricao = autor?.descricao
+    constructor(
+        autor: Autor
+    ) : this (autor.nome, autor.email, autor.descricao)
 }
