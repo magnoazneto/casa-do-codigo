@@ -31,8 +31,7 @@ class EstadoController(
 
     fun estadoDuplicadoNoPais(request: EstadoRequest): Boolean {
         return estadoRepository
-            .findAllByPaisId(request.paisId)
-            .any { it.nome == request.nome }
+            .existsByNomeAndPaisId(request.nome, request.paisId)
     }
 
 }

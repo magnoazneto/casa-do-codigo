@@ -5,5 +5,5 @@ import io.micronaut.data.jpa.repository.JpaRepository
 
 @Repository
 interface EstadoRepository: JpaRepository<Estado, Long> {
-    fun findAllByPaisId(paisId: Long): List<Estado>
+    fun existsByNomeAndPaisId(nome: String,paisId: Long): Boolean
 }
